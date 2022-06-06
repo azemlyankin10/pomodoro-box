@@ -1,0 +1,56 @@
+:root {
+  --LayoutColor: #fff;
+  --fontColor: #333;
+
+  --white: #fff;
+  --red: #DC3E22;
+  --red-dark: #B7280F;
+  --green: #A8B64F;
+  --grey: #F4F4F4;
+  --grey-1: #c4c4c4;
+  --grey-dark: #E4E4E4;
+}
+
+@font-face {
+  font-family: 'SF';
+  font-style: normal;
+  font-weight: 400;
+  src: local('SF UI Text Regular'), url('../../public/font/SFUIText-Regular.woff') format('woff');
+}
+  
+@font-face {
+  font-family: 'SF';
+  font-style: normal;
+  font-weight: 300;
+  src: local('SF UI Text Light'), url('../../public/font/SFUIText-Light.woff') format('woff');
+}
+  
+
+@font-face {
+  font-family: 'SF';
+  font-style: normal;
+  font-weight: 500;
+  src: local('SF UI Text Medium'), url('../../public/font/SFUIText-Medium.woff') format('woff');
+}
+  
+
+@font-face {
+  font-family: 'SF';
+  font-style: normal;
+  font-weight: 700;
+  src: local('SF UI Text Bold'), url('../../public/font/SFUIText-Bold.woff') format('woff');
+}
+  
+
+body {
+  font-family: 'SF', sans-serif;
+  color: var(--fontColor);
+}
+
+.bg-grey {
+  background-color: var(--grey-1);
+}
+
+.bg-grey-1 {
+  background-color: var(--grey);
+}

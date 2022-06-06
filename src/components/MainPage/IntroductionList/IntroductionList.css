@@ -1,0 +1,17 @@
+.introductionList__li {
+  position: relative;
+  border: none !important;
+  background-color: transparent !important;
+}
+
+.introductionList__li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--red-dark);
+}

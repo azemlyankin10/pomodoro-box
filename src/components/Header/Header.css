@@ -1,0 +1,11 @@
+.header {
+  background-color: var(--white);
+  box-shadow: 0px 10px 63px rgba(0, 0, 0, 0.07);
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+}
+
+.nav-color {
+  color: var(--red);
+}
