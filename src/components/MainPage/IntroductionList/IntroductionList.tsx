@@ -3,7 +3,7 @@ import { ListGroup } from 'react-bootstrap'
 import './IntroductionList.css'
 
 export const IntroductionList = () => (
-  <div className="introductionList">
+  <div className="introductionList mb-4">
     <h2 className="introductionList__header fs-3 fw-bold">
       Ура! Теперь можно начать работать:
     </h2>

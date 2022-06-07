@@ -1,0 +1,26 @@
+.dropdown-container {
+  position: absolute;
+  top: 120%;
+  right: 50%;
+  transform: translateX(50%);
+  width: 165px;
+  background-color: #fff;
+  border: 1px solid #C4C4C4;
+  z-index: 5;
+}
+
+.dropdown-container::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 15px;
+  height: 8.5px;
+  background: url('../../../../../../../public/img/arr.svg') no-repeat center bottom / cover,
+              #fff;
+}
+
+.dropdown-elem-disabled svg path {
+  fill: var(--grey-1);
+}

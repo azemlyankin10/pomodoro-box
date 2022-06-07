@@ -4,21 +4,29 @@ import { IntroductionList } from './IntroductionList/IntroductionList'
 import { FormComponent } from './Form/Form'
 import './MainPage.css'
 import { Tasks } from './Tasks/Tasks'
-import { Dashboard } from './Dashboard/Dashboard'
+import { DashboardContainer } from './DashboardContainer/DashboardContainer'
 
 export const MainPage = () => (
-  <Container>
+  <Container className='py-5 mt-xl-5'>
     <Row>
-      <Col>
+      <Col 
+        xs={12} 
+        xl={6}
+        className='order-xl-2 mb-5 mb-xl-0'
+      >
+
+        <DashboardContainer />
+
+      </Col>
+      <Col 
+        xs={12} 
+        xl={6}
+        className='order-xl-1'
+      >
 
         <IntroductionList />
         <FormComponent />
         <Tasks />
-
-      </Col>
-      <Col>
-        
-        <Dashboard />
 
       </Col>
     </Row>

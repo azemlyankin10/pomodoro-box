@@ -1,0 +1,9 @@
+.fs-timer {
+  font-size: 130px;
+}
+
+@media(max-width: 768px) {
+  .fs-timer {
+    font-size: 80px;
+  }
+}

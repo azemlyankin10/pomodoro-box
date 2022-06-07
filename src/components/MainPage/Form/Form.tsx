@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { useRecoilState } from 'recoil'
-import { inputTextState, tasksState } from '../../../store/atoms'
+import { editTaskState, inputTextState, Task, tasksState } from '../../../store/atoms'
+import { genarateRandomString } from '../../../utils/js/generatyid'
 import './Form.css'
 
 export const FormComponent = () => {
   const [value, setValue] = useRecoilState(inputTextState)
   const [tasks, setTasks] = useRecoilState(tasksState)
+  // const [editValue, setEditValue] = useRecoilState(editTaskState)
   const [disableBtn, setDisableBtn] = useState(false)
+
+  const ref = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if(!value) setDisableBtn(true)
@@ -20,13 +24,21 @@ export const FormComponent = () => {
 
   const formSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
-    const newTask = tasks.concat([{ value, time: 25, priority: 1 }])
-    setTasks(newTask)
+    setTasks(tasks.concat([
+      { 
+        value, 
+        time: 25, 
+        pomodors: 1, 
+        currentPomodor: 1, 
+        done: false, 
+        id: genarateRandomString() 
+      }
+    ]))
     setValue('')
   }
 
   return (
-    <Form onSubmit={formSubmit}>
+    <Form onSubmit={formSubmit} className='mb-4'>
 
       <Form.Group className="mb-3">
         <Form.Control 
@@ -34,14 +46,16 @@ export const FormComponent = () => {
           className='form-input'
           value={value}
           onChange={inputHandler}
+          ref={ref}
         />
       </Form.Group>
 
       <Button 
         type="submit"
         variant="success"
-        className='form-btn'
+        className='btn-green'
         disabled={disableBtn}
+        style={{ width: 173 }}
       >
         Добавить
       </Button>
@@ -49,3 +63,28 @@ export const FormComponent = () => {
     </Form>
   )
 }
+
+
+
+// let newElem
+// if (oparation === 'plus') {
+//   newElem = { ...currentElem, pomodors: currentElem.pomodors + 1 }
+// } else if (oparation === 'minuse' && currentElem.pomodors > 0) {
+//   newElem = { ...currentElem, pomodors: currentElem.pomodors - 1 }
+// }
+
+// if(newElem && newElem.currentPomodor > newElem.pomodors) {
+//   newElem = { ...newElem, done: true }
+// } else if (newElem && newElem.currentPomodor <= newElem.pomodors) {
+//   newElem = { ...newElem, done: false }
+// }
+
+// const { id } = currentElem
+// const index = state.findIndex(el => el.id === id)
+// const newTasks = [...state]
+
+// if(newElem) {
+//   newTasks.splice(index, 1, newElem)
+// }
+
+// return newTasks

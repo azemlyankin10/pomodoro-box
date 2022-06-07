@@ -13,7 +13,7 @@ export const Header = () => (
       >
         <Nav.Link 
           href="/" 
-          className='d-flex align-items-center'
+          className='d-flex align-items-center ps-0'
         >
           <Icon 
             name={EIcons.tomato} 
@@ -27,7 +27,7 @@ export const Header = () => (
         </Nav.Link>
         <Nav.Link 
           href="/stats" 
-          className='d-flex align-items-center'
+          className='d-flex align-items-center pe-0'
         >
           <Icon 
             name={EIcons.stats} 
