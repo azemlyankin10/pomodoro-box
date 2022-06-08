@@ -2,13 +2,18 @@ import React from 'react'
 import { ListGroup } from 'react-bootstrap'
 import { useRecoilValue } from 'recoil'
 import { tasksState } from '../../../store/atoms'
+import { humanTime } from '../../../utils/js/humanTime'
 import { Task } from './Task/Task'
 import './Tasks.css'
 
 
 export const Tasks = () => {
   const tasks = useRecoilValue(tasksState)
-  const fullTime = tasks.reduce((a, b) => a + (b.time || 0), 0)
+  const fullTime = tasks.reduce((a, b) => {
+    const time = b.time * b.pomodors
+    return a + time
+  }, 0)
+  
 
   const sortTasks = [...tasks].sort((a) => {
     if(a?.done === true) return 1
@@ -32,7 +37,7 @@ export const Tasks = () => {
       </ListGroup>
       {fullTime > 0 && (
         <span className='text-secondary fs-6'>
-          {`${fullTime} мин`}
+          {humanTime(fullTime)}
         </span>
       )}
     </div>
