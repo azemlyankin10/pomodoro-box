@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Button, ButtonGroup } from 'react-bootstrap'
+import { ControlBtns } from './ControlBtns/ControlBtns'
 import './Dashboard.css'
 import { DBHeader } from './DBHeader/DBHeader'
 import { Timer } from './Timer/Timer'
@@ -11,8 +11,11 @@ interface Dashboard {
   time: number
   isStart: boolean
   isStop: boolean
+  isPause: boolean
   onStart: () => void
   onStop: () => void
+  onPause: () => void
+  onDone: () => void
   addPomodoro: () => void
   timerComplete: () => void
   timeout: boolean
@@ -28,8 +31,11 @@ export const Dashboard: FC<Dashboard> = ({
   time, 
   isStart, 
   isStop, 
+  isPause,
   onStart, 
-  onStop, 
+  onStop,
+  onPause, 
+  onDone,
   addPomodoro, 
   timerComplete,
   timeout,
@@ -49,6 +55,7 @@ export const Dashboard: FC<Dashboard> = ({
               time={time} 
               start={isStart} 
               stop={isStop}
+              pause={isPause}
               addPomodoro={addPomodoro} 
               timerComplete={timerComplete}    
             />
@@ -59,30 +66,14 @@ export const Dashboard: FC<Dashboard> = ({
             {taskName}
             </p>
 
-            <ButtonGroup className='mb-xl-5'>
-
-            <Button 
-              variant='success' 
-              className='btn-green me-3'
-              style={{ width: 145 }} 
-              onClick={onStart}
-              disabled={isStart}
-            >
-              Старт
-            </Button>
-
-            <Button 
-              variant='outline-danger'
-              className='btn-red-outline'
-              style={{ width: 138 }}
-              disabled={!isStart}
-              onClick={onStop}
-            >
-              Стоп
-            </Button>
-
-            </ButtonGroup>
-          </>
+            <ControlBtns
+              onStart={onStart}
+              onStop={onStop}
+              onPause={onPause}
+              onDone={onDone}
+              isStart={isStart}
+            />
+          </>  
         )}
         {timeout && (
           <>

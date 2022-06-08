@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import Countdown, { zeroPad } from 'react-countdown'
 import { useRecoilValue } from 'recoil'
@@ -9,25 +9,28 @@ interface Timer {
   time: number
   start: boolean
   stop?: boolean
+  pause?: boolean
   addPomodoro?: () => void
   timerComplete: () => void
 }
 
-export const Timer: FC<Timer> = ({ time, start, stop, addPomodoro, timerComplete }) => {
+export const Timer: FC<Timer> = ({ time, start, stop, pause, addPomodoro, timerComplete }) => {
   const ref = useRef<Countdown>(null)
-  const { timeoutRunning } = useRecoilValue(commonState)
+  const { timeoutRunning, timerRunning, timerOnPause } = useRecoilValue(commonState)
+  const [currentTime] = useState(Date.now() + time * 60 * 1000)
+
   useEffect(() => {
     if(start) ref.current?.start()
     if(stop) ref.current?.stop()
-  }, [start, stop])
+    if(pause) ref.current?.pause()
+  }, [start, stop, pause])
 
   return (
-    <div className="d-flex align-items-center px-3">
+    <div className={`${timerRunning && !timerOnPause ? 'red-timer' : ''} d-flex align-items-center px-3`}>
       <Countdown 
-        date={Date.now() + time * 60 * 1000} 
+        date={currentTime} 
         renderer={renderer}
         autoStart={false}
-        onStart={() => console.log('start')}
         onComplete={timerComplete}
         ref={ref}
       />

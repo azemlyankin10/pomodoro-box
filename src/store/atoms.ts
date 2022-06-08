@@ -37,6 +37,7 @@ export type CommotState = {
   completedTasks: number
   timerRunning: boolean
   timeoutRunning: boolean
+  timerOnPause: boolean
   successDeleteTaskToast: boolean
 }
 
@@ -46,6 +47,7 @@ export const commonState = atom<CommotState>({
     completedTasks: 0,
     timerRunning: false,
     timeoutRunning: false,
+    timerOnPause: false,
     successDeleteTaskToast: false
   }
 })
