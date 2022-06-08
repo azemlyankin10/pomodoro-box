@@ -7,3 +7,7 @@
     font-size: 80px;
   }
 }
+
+.red-timer .fs-timer {
+  color: var(--red);
+}

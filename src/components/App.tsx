@@ -6,19 +6,24 @@ import { Layout } from './Layout/Layout'
 import { MainPage } from './MainPage/MainPage'
 import { ThemeProvider } from 'react-bootstrap'
 import { RecoilRoot } from 'recoil'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 function App() {
   return (
-    <RecoilRoot>
-      <ThemeProvider
-        breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
-      >
-        <Layout>
-          <Header />
-          <MainPage />
-        </Layout>
-      </ThemeProvider>
-    </RecoilRoot>
+    <BrowserRouter>
+      <RecoilRoot>
+        <ThemeProvider
+          breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
+        >
+          <Layout>
+            <Header />
+            <Routes>
+              <Route path='/' element={<MainPage />} />
+            </Routes>
+          </Layout>
+        </ThemeProvider>
+      </RecoilRoot>
+    </BrowserRouter>
   )
 }
 

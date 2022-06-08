@@ -62,8 +62,16 @@ body {
   background-color: var(--grey);
 }
 
+.bg-danger {
+  background-color: var(--red) !important;
+}
+
+.bg-green {
+  background-color: var(--green) !important;
+}
+
+
 .done .value {
-  /* background-color: rgba(168, 182, 79, 0.3); */
   text-decoration: line-through;
   text-decoration-color: var(--red);
 }
