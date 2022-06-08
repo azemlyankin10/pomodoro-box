@@ -30,7 +30,8 @@ export const FormComponent = () => {
         pomodors: 1, 
         currentPomodor: 1, 
         done: false, 
-        id: genarateRandomString() 
+        id: genarateRandomString(),
+        edit: false
       }
     ]))
     setValue('')

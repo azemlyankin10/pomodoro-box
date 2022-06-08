@@ -16,7 +16,7 @@ export const getCurrentTask = selector({
 export const getTimeout = selector({
   key: 'getTimeout',
   get: ({get}) => {
-    const state = get(commonState)
+    const state = get(commonState)    
     if(state.completedTasks < 4) return 15
     return 30
   }

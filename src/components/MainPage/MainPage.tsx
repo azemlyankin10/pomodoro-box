@@ -7,7 +7,7 @@ import { Tasks } from './Tasks/Tasks'
 import { DashboardContainer } from './DashboardContainer/DashboardContainer'
 
 export const MainPage = () => (
-  <Container className='py-5 mt-xl-5'>
+  <Container className='py-5 mb-5 mt-xl-5'>
     <Row>
       <Col 
         xs={12} 

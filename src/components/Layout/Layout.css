@@ -1,4 +1,5 @@
 .layout {
+  position: relative;
   background-color: var(--LayoutColor);
   min-height: 100vh;
 }

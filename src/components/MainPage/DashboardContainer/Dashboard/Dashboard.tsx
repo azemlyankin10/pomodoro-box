@@ -53,9 +53,9 @@ export const Dashboard: FC<Dashboard> = ({
               timerComplete={timerComplete}    
             />
             <p className="d-flex align-items-center mb-4">
-            <span className='text-grey'>
-              Задача {index} -&nbsp;
-            </span>
+              <span className='text-grey'>
+                Задача {index} -&nbsp;
+              </span>
             {taskName}
             </p>
 

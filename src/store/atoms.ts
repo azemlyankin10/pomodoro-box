@@ -1,5 +1,5 @@
 import { atom } from 'recoil'
-import { localStorageEffect, sessionStorageEffect } from './effects'
+import { localStorageEffect } from './effects'
 
 export const inputTextState = atom({
   key: 'inputText',
@@ -16,6 +16,7 @@ export type Task = {
   pomodors: number
   currentPomodor: number
   done: boolean
+  edit: boolean
 }
 
 export const tasksState = atom<Task[]>({
@@ -36,6 +37,7 @@ export type CommotState = {
   completedTasks: number
   timerRunning: boolean
   timeoutRunning: boolean
+  successDeleteTaskToast: boolean
 }
 
 export const commonState = atom<CommotState>({
@@ -43,9 +45,7 @@ export const commonState = atom<CommotState>({
   default: {
     completedTasks: 0,
     timerRunning: false,
-    timeoutRunning: false
-  },
-  effects: [
-    sessionStorageEffect('commonState'),
-  ]
+    timeoutRunning: false,
+    successDeleteTaskToast: false
+  }
 })

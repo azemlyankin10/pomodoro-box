@@ -19,13 +19,14 @@ export const Tasks = () => {
   return (
     <div className="tasks">
       <ListGroup as='ul' className='mb-3'>
-        {sortTasks.map(({ value, pomodors, id, done }) => (
+        {sortTasks.map(({ value, pomodors, id, done, edit }) => (
           <Task 
             key={id}
             value={value} 
             pomodors={pomodors} 
             id={id} 
-            done={done}            
+            done={done}
+            edit={edit}  
           />
         ))}
       </ListGroup>

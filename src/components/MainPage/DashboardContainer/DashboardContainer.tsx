@@ -6,6 +6,9 @@ import { changeCurPomodor } from '../../../utils/state/changeCurPomodor'
 import { changePomodors } from '../../../utils/state/changePomodors'
 import { EIcons, Icon } from '../../../utils/ui/Icon/Icon'
 import { Dashboard } from './Dashboard/Dashboard'
+import useSound from 'use-sound'
+import soundSuccess from '../../../utils/sound/success-sound-effect.mp3'
+import soundTimeout from '../../../utils/sound/timoutover.mp3'
 
 export const DashboardContainer = () => {
   const [tick, setTick] = useState(false)
@@ -14,13 +17,14 @@ export const DashboardContainer = () => {
   const [state, setState] = useRecoilState(commonState)
   const timeout = useRecoilValue(getTimeout)
   const task = useRecoilValue(getCurrentTask)  
+  const [playSuccess] = useSound(soundSuccess)
+  const [playTimeoutOver] = useSound(soundTimeout)
   if(!task) return <Empty />
 
   const onStart = () => {
     setState({ ...state, timerRunning: true, timeoutRunning: false })
     setTick(true)
     setStop(false)
-    setTimeout(() => { console.log(state) }, 1000)
   }
 
   const onStop = () => {
@@ -34,14 +38,24 @@ export const DashboardContainer = () => {
   }
 
   const onComplete = () => {
-    setState({ ...state, timerRunning: false, timeoutRunning: true })
+    const completedTasks = state.completedTasks >= 4
+      ? 0
+      : state.completedTasks + 1 
+    setState({ 
+      ...state, 
+      timerRunning: false, 
+      timeoutRunning: true, 
+      completedTasks
+    })
     setTick(false)
     setStop(true)
-  }
+    playSuccess()
+  }  
 
   const onCompleteTimeout = () => {
     setState({ ...state, timerRunning: false, timeoutRunning: false })
     setTasks(changeCurPomodor(tasks)(task.curTask))
+    playTimeoutOver()
   }
 
   const { curTask: { value, currentPomodor, time }, index } = task
@@ -50,8 +64,7 @@ export const DashboardContainer = () => {
       taskName={value}
       currentPomodor={currentPomodor}
       index={index}
-      // time={curTask.time}
-      time={0.05} // delete
+      time={time}
       isStart={tick}
       isStop={stop}
       onStart={onStart}
@@ -59,7 +72,7 @@ export const DashboardContainer = () => {
       addPomodoro={addPomodoro}
       timerComplete={onComplete}
       timeout={state.timeoutRunning} 
-      timeoutTime={0.1} 
+      timeoutTime={timeout} 
       isTimeoutStart={state.timeoutRunning} 
       timerTimeoutComplete={onCompleteTimeout}
     />
