@@ -51,3 +51,22 @@ export const commonState = atom<CommotState>({
     successDeleteTaskToast: false
   }
 })
+
+
+export const statsState = atom({
+  key: 'stats',
+  default: {
+    workTime: [] as { total: number, date: string }[],
+    stops: [] as string[],
+    pomodors: [] as string[],
+    pauses: [] as { timeMs: number, date: string }[]
+  },
+  effects: [
+    localStorageEffect('stats'),
+  ]
+})
+
+export const dayState = atom({
+  key: 'day',
+  default: new Date().getDay() - 1
+})

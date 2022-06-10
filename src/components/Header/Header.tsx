@@ -1,5 +1,6 @@
 import React from 'react'
 import { Container, Nav } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import { EIcons, Icon } from '../../utils/ui/Icon/Icon'
 import './Header.css'
 
@@ -11,9 +12,9 @@ export const Header = () => (
         as="div"
         className='justify-content-between align-items-center'
       >
-        <Nav.Link 
-          href="/" 
-          className='d-flex align-items-center ps-0'
+        <Link
+          to='/'
+          className='d-flex align-items-center ps-0 text-decoration-none'
         >
           <Icon 
             name={EIcons.tomato} 
@@ -24,10 +25,10 @@ export const Header = () => (
           <span className='fs-5 nav-color'>
             Pomodoro_box
           </span>
-        </Nav.Link>
-        <Nav.Link 
-          href="/stats" 
-          className='d-flex align-items-center pe-0'
+        </Link>
+        <Link
+          to='/stats'
+          className='d-flex align-items-center pe-0 text-decoration-none'
         >
           <Icon 
             name={EIcons.stats} 
@@ -38,7 +39,7 @@ export const Header = () => (
           <span className='fs-6 nav-color'>
             Статистика
           </span>
-        </Nav.Link>
+        </Link>
       </Nav>
     </Container>
   </div>

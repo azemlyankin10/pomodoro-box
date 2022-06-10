@@ -1,0 +1,5 @@
+.pauseStat {
+  min-height: 180px;
+  background: url('../../../../public/img/pausebg.svg') no-repeat 95% center / 115px 115px,
+            #DFDCFE;
+}

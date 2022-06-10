@@ -32,6 +32,7 @@ export const Timer: FC<Timer> = ({ time, start, stop, pause, addPomodoro, timerC
         renderer={renderer}
         autoStart={false}
         onComplete={timerComplete}
+        onPause={( a) => console.log(a)}
         ref={ref}
       />
       {!timeoutRunning && (

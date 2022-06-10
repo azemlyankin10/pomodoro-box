@@ -138,3 +138,8 @@ body {
   border-color: var(--grey-1);
   opacity: .7;
 }
+
+/* fs */
+.fs-big {
+  font-size: 4rem;
+}

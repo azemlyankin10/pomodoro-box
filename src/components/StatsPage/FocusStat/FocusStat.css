@@ -1,0 +1,5 @@
+.focusStat {
+  min-height: 180px;
+  background: url('../../../../public/img/focusbg.svg') no-repeat 95% center / 130px 130px,
+              #FFDDA9;
+}

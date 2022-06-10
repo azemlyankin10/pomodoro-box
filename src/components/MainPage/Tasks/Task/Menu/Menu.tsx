@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Dropdown } from 'react-bootstrap'
 import { useRecoilState } from 'recoil'
 import { commonState, Task, tasksState } from '../../../../../store/atoms'
-import { changePomodors } from '../../../../../utils/state/changePomodors'
-import { useEditState } from '../../../../../utils/state/hooks/useEditState'
+import { currentDone } from '../../../../../utils/state/currentDone'
+import { useTaskState } from '../../../../../utils/state/hooks/useTaskState'
 import { Icon, EIcons } from '../../../../../utils/ui/Icon/Icon'
 import { DeleteModal } from '../../../../../utils/ui/Modals/DeleteModal'
 import './Menu.css'
@@ -14,7 +14,8 @@ export const Menu = ({ id }: { id: string }) => {
   const [currentTask, setCurrentTask] = useState({} as Task) 
   const [disableDecrement, setDisableDecrement] = useState(false)
   const [isModal, setIsModal] = useState(false)
-  const [changeEditState] = useEditState()
+  const [changeTaskState] = useTaskState()
+
 
   useEffect(() => {
     const task = tasks.find(el => el.id === id) as Task
@@ -28,18 +29,22 @@ export const Menu = ({ id }: { id: string }) => {
 
   const onIncrement = () => {
     if(currentTask) {
-      setTasks(changePomodors('plus')(tasks)(currentTask as Task))
+      const pomodors = currentTask.pomodors + 1
+      const done = currentDone(currentTask.currentPomodor, pomodors)
+      changeTaskState(id, {pomodors, done})
     }
   }
 
   const onDecrement = () => {
     if(currentTask && !currentTask.done) {
-      setTasks(changePomodors('minuse')(tasks)(currentTask as Task))
+      const pomodors = currentTask.pomodors - 1
+      const done = currentDone(currentTask.currentPomodor, pomodors)
+      changeTaskState(id, {pomodors, done})
     }
   }
 
   const onEdit = () => {
-    changeEditState(id, true)
+    changeTaskState(id, {edit: true})
   }
 
   const onDelete = () => {

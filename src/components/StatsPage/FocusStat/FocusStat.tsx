@@ -1,0 +1,19 @@
+import React from 'react'
+import { useRecoilValue } from 'recoil'
+import { getCurrentDayState } from '../../../store/selectors'
+import './FocusStat.css'
+
+
+export const FocusStat = () => {
+  const { workTime, pauses } = useRecoilValue(getCurrentDayState)
+
+  const focus = 100 - (pauses / workTime.time * 100)
+
+  return (
+    <div className="focusStat p-4">
+      <h3 className='fs-4 mb-2'>Фокус</h3>
+      <p className='fs-big m-0'>{focus > 0 ? focus : 0}%</p>
+    </div>
+  )
+  
+}

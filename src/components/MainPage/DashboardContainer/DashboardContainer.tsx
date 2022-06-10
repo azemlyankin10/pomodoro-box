@@ -1,25 +1,27 @@
 import React, { useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
-import { commonState, tasksState } from '../../../store/atoms'
+import { commonState } from '../../../store/atoms'
 import { getCurrentTask, getTimeout } from '../../../store/selectors'
-import { changeCurPomodor } from '../../../utils/state/changeCurPomodor'
-import { changePomodors } from '../../../utils/state/changePomodors'
 import { EIcons, Icon } from '../../../utils/ui/Icon/Icon'
 import { Dashboard } from './Dashboard/Dashboard'
 import useSound from 'use-sound'
 import soundSuccess from '../../../utils/sound/success-sound-effect.mp3'
 import soundTimeout from '../../../utils/sound/timoutover.mp3'
+import { useTaskState } from '../../../utils/state/hooks/useTaskState'
+import { currentDone } from '../../../utils/state/currentDone'
+import { useStatsState } from '../../../utils/state/hooks/useStatsState'
 
 export const DashboardContainer = () => {
   const [tick, setTick] = useState(false)
   const [stop, setStop] = useState(false)
   const [pause, setPause] = useState(false)
-  const [tasks, setTasks] = useRecoilState(tasksState)
   const [state, setState] = useRecoilState(commonState)
   const timeout = useRecoilValue(getTimeout)
   const task = useRecoilValue(getCurrentTask)  
   const [playSuccess] = useSound(soundSuccess)
   const [playTimeoutOver] = useSound(soundTimeout)
+  const [changeTaskState] = useTaskState()
+  const { addStopStat, addWorkTimeStat, addPomodorStat, pauseStat } = useStatsState()
   if(!task) return <Empty />
 
   const onStart = () => {
@@ -34,6 +36,8 @@ export const DashboardContainer = () => {
     setTick(false)
     setStop(true)
     setPause(false)
+    // add stats
+    addStopStat()
   }
 
   const onPause = () => {
@@ -41,21 +45,19 @@ export const DashboardContainer = () => {
     setPause(!pause)
     setTick(!tick)
     setStop(false)
+
+    // add stats
+    pauseStat()
   }
 
   const onDone = () => {
     const pomodors = task.curTask.currentPomodor
-    const newElem = { ...task.curTask, pomodors, done: true }
-    const copyTasks = [...tasks]
-    const index = copyTasks.findIndex(el => el.id === newElem.id)
-    copyTasks.splice(index, 1, newElem)
-    setTasks(copyTasks)
-
+    changeTaskState(task.curTask.id, {pomodors, done: true})
     onStop()
   }
 
   const addPomodoro = () => {    
-    setTasks(changePomodors('plus')(tasks)(task.curTask))
+    changeTaskState(task.curTask.id, {pomodors: task.curTask.pomodors + 1})
   }
 
   const onComplete = () => {
@@ -71,12 +73,20 @@ export const DashboardContainer = () => {
     setTick(false)
     setStop(true)
     playSuccess()
+
+    // add stats
+    addWorkTimeStat(task.curTask.time)
   }  
 
   const onCompleteTimeout = () => {
     setState({ ...state, timerRunning: false, timeoutRunning: false })
-    setTasks(changeCurPomodor(tasks)(task.curTask))
+    const currentPomodor = task.curTask.currentPomodor + 1
+    const done = currentDone(currentPomodor, task.curTask.pomodors)
+    changeTaskState(task.curTask.id, {currentPomodor, done})
     playTimeoutOver()
+
+    // add stats
+    addPomodorStat()
   }
 
   const { curTask: { value, currentPomodor, time }, index } = task
@@ -85,7 +95,7 @@ export const DashboardContainer = () => {
       taskName={value}
       currentPomodor={currentPomodor}
       index={index}
-      time={time}
+      time={.3}
       isStart={tick}
       isStop={stop}
       isPause={pause}
