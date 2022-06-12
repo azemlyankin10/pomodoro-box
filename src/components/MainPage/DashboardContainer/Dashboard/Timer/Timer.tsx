@@ -38,9 +38,8 @@ export const Timer: FC<Timer> = ({ time, start, stop, pause, addPomodoro, timerC
         autoStart={leftTime > 1000}
         onComplete={() => { setCommonState({ ..._commonState, leftTime: 0 }), timerComplete() }}
         onPause={(a) => console.log(a)}
-        onTick={({total}) => { 
-          setCommonState({ ..._commonState, leftTime: total })
-        }}
+        onStop={() => { setCommonState({ ..._commonState, leftTime: 0 }) }}
+        onTick={({total}) => { setCommonState({ ..._commonState, leftTime: total }) }}
         ref={ref}
       />
       {!timeoutRunning && (
