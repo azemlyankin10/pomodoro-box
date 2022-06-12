@@ -35,7 +35,7 @@ export const Timer: FC<Timer> = ({ time, start, stop, pause, addPomodoro, timerC
       <Countdown 
         date={currentTime} 
         renderer={renderer}
-        autoStart={leftTime > 1000}
+        autoStart={leftTime > 1000 && !timerOnPause}
         onComplete={() => { setCommonState({ ..._commonState, leftTime: 0 }), timerComplete() }}
         onPause={(a) => console.log(a)}
         onStop={() => { setCommonState({ ..._commonState, leftTime: 0 }) }}
@@ -50,7 +50,6 @@ export const Timer: FC<Timer> = ({ time, start, stop, pause, addPomodoro, timerC
           +
         </Button>
       )}
-
     </div>
   )
 }
