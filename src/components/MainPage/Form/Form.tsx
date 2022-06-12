@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { useRecoilState } from 'recoil'
-import { inputTextState, tasksState } from '../../../store/atoms'
+import { tasksState } from '../../../store/atoms'
 import { genarateRandomString } from '../../../utils/js/generatyid'
 import './Form.css'
 
 export const FormComponent = () => {
-  const [value, setValue] = useRecoilState(inputTextState)
   const [tasks, setTasks] = useRecoilState(tasksState)
   const [disableBtn, setDisableBtn] = useState(false)
+  const [value, setValue] = useState('')
 
   const ref = useRef<HTMLInputElement>(null)
 
@@ -26,12 +26,11 @@ export const FormComponent = () => {
     setTasks(tasks.concat([
       { 
         value, 
-        time: 25, 
         pomodors: 1, 
         currentPomodor: 1, 
         done: false, 
         id: genarateRandomString(),
-        edit: false
+        edit: false,
       }
     ]))
     setValue('')

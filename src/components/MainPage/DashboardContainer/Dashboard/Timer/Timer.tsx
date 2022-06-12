@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useRef, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import Countdown, { zeroPad } from 'react-countdown'
-import { useRecoilValue } from 'recoil'
+import { useRecoilState } from 'recoil'
 import { commonState } from '../../../../../store/atoms'
 import './Timer.css'
 
@@ -16,8 +16,13 @@ interface Timer {
 
 export const Timer: FC<Timer> = ({ time, start, stop, pause, addPomodoro, timerComplete }) => {
   const ref = useRef<Countdown>(null)
-  const { timeoutRunning, timerRunning, timerOnPause } = useRecoilValue(commonState)
-  const [currentTime] = useState(Date.now() + time * 60 * 1000)
+  const [_commonState, setCommonState] = useRecoilState(commonState)
+  const { timeoutRunning, timerRunning, timerOnPause, leftTime } = _commonState
+
+  let timeForTimer =  Date.now() + time * 60 * 1000
+  if(leftTime > 1000) timeForTimer = Date.now() + leftTime
+  const [currentTime] = useState(timeForTimer)
+
 
   useEffect(() => {
     if(start) ref.current?.start()
@@ -30,8 +35,12 @@ export const Timer: FC<Timer> = ({ time, start, stop, pause, addPomodoro, timerC
       <Countdown 
         date={currentTime} 
         renderer={renderer}
-        autoStart={false}
-        onComplete={timerComplete}
+        autoStart={leftTime > 1000}
+        onComplete={() => { setCommonState({ ..._commonState, leftTime: 0 }), timerComplete() }}
+        onPause={(a) => console.log(a)}
+        onTick={({total}) => { 
+          setCommonState({ ..._commonState, leftTime: total })
+        }}
         ref={ref}
       />
       {!timeoutRunning && (

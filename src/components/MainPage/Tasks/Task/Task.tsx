@@ -1,8 +1,7 @@
 import React, { FC, useEffect, useRef } from 'react'
 import { FormControl, ListGroup, Stack } from 'react-bootstrap'
-import { useEditState } from '../../../../utils/state/hooks/useEditState'
+import { useTaskState } from '../../../../utils/state/hooks/useTaskState'
 import { Menu } from './Menu/Menu'
-import './Task.css'
 
 interface TaskProps {
   value: string 
@@ -13,7 +12,7 @@ interface TaskProps {
 }
 
 export const Task: FC<TaskProps> = ({ value, pomodors, id, done, edit }) => {
-  const [changeEditState] = useEditState()
+  const [changeTaskState] = useTaskState()
   const ref = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -21,7 +20,7 @@ export const Task: FC<TaskProps> = ({ value, pomodors, id, done, edit }) => {
     function move() {
       if (ref.current) {
         if (ref.current.value) {
-          changeEditState(id, false, ref.current.value)
+          changeTaskState(id, { edit: false, value: ref.current.value })
         } else {
           ref.current.focus()
         }

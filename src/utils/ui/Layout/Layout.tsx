@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useRecoilState } from 'recoil'
-import { commonState } from '../../store/atoms'
-import { ToastComponent } from '../../utils/ui/Toasts/Toast'
+import { commonState } from '../../../store/atoms'
+import { ToastComponent } from '../Toasts/Toast'
 import './Layout.css'
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {

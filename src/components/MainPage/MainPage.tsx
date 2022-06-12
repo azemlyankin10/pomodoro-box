@@ -7,29 +7,31 @@ import { Tasks } from './Tasks/Tasks'
 import { DashboardContainer } from './DashboardContainer/DashboardContainer'
 
 export const MainPage = () => (
-  <Container className='py-5 mb-5 mt-xl-5'>
-    <Row>
-      <Col 
-        xs={12} 
-        xl={6}
-        className='order-xl-2 mb-5 mb-xl-0'
-      >
+  <main className='py-5 mb-5 mt-xl-3'>
+    <Container>
+      <Row>
+        <Col 
+          xs={12} 
+          xl={6}
+          className='order-xl-2 mb-5 mb-xl-0'
+        >
 
-        <DashboardContainer />
+          <DashboardContainer />
 
-      </Col>
-      <Col 
-        xs={12} 
-        xl={6}
-        className='order-xl-1'
-      >
+        </Col>
+        <Col 
+          xs={12} 
+          xl={6}
+          className='order-xl-1'
+        >
 
-        <IntroductionList />
-        <FormComponent />
-        <Tasks />
+          <IntroductionList />
+          <FormComponent />
+          <Tasks />
 
-      </Col>
-    </Row>
-  </Container>
+        </Col>
+      </Row>
+    </Container>
+  </main>
 )
 
