@@ -2,13 +2,12 @@ import React from 'react'
 import { Select } from './Select/Select'
 import './StatHeader.css'
 
-
 export const StatHeader = () => (
-  <div className='d-flex'>
-    <h2>
+  <div className='d-flex align-items-center flex-wrap flex-md-nowrap'>
+    <h2 className='w-100'>
       Ваша активность
     </h2>
-    <div className='ms-auto'>
+    <div className='ms-md-auto'>
       <Select 
         elems={[
           { value: 'week', text: 'Эта неделя' }, 

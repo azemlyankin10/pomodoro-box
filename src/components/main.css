@@ -71,10 +71,11 @@ body {
 }
 
 
-.done .value {
-  text-decoration: line-through;
-  text-decoration-color: var(--red);
+.done {
+  color: #000;
+  background: radial-gradient(100.87% 997.97% at -4.34% 85.45%, #CBE03D 0%, rgba(168, 182, 79, 0) 100%);
 }
+
 
 /* btns */
 .btn-grey-round {

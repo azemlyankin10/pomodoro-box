@@ -1,20 +1,24 @@
 import React, { FC, useEffect, useRef, useState } from 'react'
+import { useSetRecoilState } from 'recoil'
+import { rangeWeekState } from '../../../../store/atoms'
 import './Select.css'
 
-interface SelectElem {
-  value: string
-  text: string
-}
+export type SelectValue = 'week' | 'lastweek' | '2weekago'
 
+type SelectItems = {
+  value: SelectValue
+  text?: string
+}
 interface Select {
-  elems: SelectElem[]
+  elems: SelectItems[]
 }
 
 export const Select: FC<Select> = ({ elems }) => {
   const ref = useRef(null)
   const [selectElements, setSelectElements] = useState(elems.map((el, index) => ({ ...el, selected: false, index })))
   const [open, setOpen] = useState(false)
-  const [selectedItem, setSelectedItem] = useState<SelectElem>({ value: '', text: '' })
+  const [selectedItem, setSelectedItem] = useState<SelectItems>({ value: 'week', text: '' })
+  const setRangeWeek = useSetRecoilState(rangeWeekState)
 
   function selectElem(id: number) {
     const newElem = { ...selectElements[id], selected: true }
@@ -25,7 +29,7 @@ export const Select: FC<Select> = ({ elems }) => {
   }
 
   useEffect(() => {
-    console.log(selectedItem)
+    setRangeWeek(selectedItem.value)
     
   }, [selectedItem])
 

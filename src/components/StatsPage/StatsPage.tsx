@@ -1,10 +1,5 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
-import { useRecoilValue } from 'recoil'
-import { statsState } from '../../store/atoms'
-import { getStatByDays } from '../../store/selectors'
-import { getWeek } from '../../utils/js/getArrOfDays'
-import { getUnicArr } from '../../utils/js/getUnicArr'
 import { BarChart } from './BarChart/BarChart'
 import { CountPomodorsStat } from './CountPomodorsStat/CountPomodorsStat'
 import { FocusStat } from './FocusStat/FocusStat'
@@ -14,56 +9,45 @@ import { StatHeader } from './StatHeader/StatHeader'
 import './StatsPage.css'
 import { StopsStat } from './StopsStat/StopsStat'
 
-export const StatsPage = () => {
+export const StatsPage = () => (
+  <main className='py-5 mb-5 mt-xl-3'>
+    <Container>
+      <Row className='mb-4'>
+        <StatHeader />
+      </Row>
 
-  const { pauses, pomodors, stops, workTime } = useRecoilValue(getStatByDays)
+      <Row>
+        <Col lg={3} >
+          <Container fluid className='p-0 m-0'>
+            <Row>
+              <Col lg={12} md={6} className='mb-3'>
+                <OneDayActivityStat/>
+              </Col>
+              <Col lg={12} md={6} className='mb-3'>
+                <CountPomodorsStat/>
+              </Col>
+            </Row>
+          </Container>
+        </Col>
 
-  // console.log(pauses)
-  console.log('pomodors', pomodors)
-  console.log('stops', stops)
-  // console.log(workTime)
-  
+        <Col lg={9} className='mb-3'>
+          <BarChart/>
+        </Col>
+      </Row>
 
-  return (
-    <main className='py-5 mb-5 mt-xl-3'>
-      <Container>
-        <Row className='mb-4'>
-          <StatHeader />
-        </Row>
-  
-        <Row>
-          <Col lg={3} >
-            <Container fluid className='p-0 m-0'>
-              <Row>
-                <Col lg={12} className='mb-3'>
-                  <OneDayActivityStat/>
-                </Col>
-                <Col lg={12} className='mb-3'>
-                  <CountPomodorsStat/>
-                </Col>
-              </Row>
-            </Container>
-          </Col>
-  
-          <Col lg={9} className='mb-3'>
-            <BarChart/>
-          </Col>
-        </Row>
-  
-        <Row>
-          <Col lg={4}>
-            <FocusStat/>
-          </Col>
-  
-          <Col lg={4}>
-            <PauseStat/>
-          </Col>
-  
-          <Col lg={4}>
-            <StopsStat/>
-          </Col>
-        </Row>
-      </Container>
-    </main>
-  )
-}
+      <Row>
+        <Col md={12} lg={4} className='order-md-3 order-lg-1 mt-md-3 mt-lg-0 mb-3 mb-md-0'>
+          <FocusStat/>
+        </Col>
+
+        <Col md={6} lg={4} className='order-md-1 order-lg-2 mb-3 mb-md-0'>
+          <PauseStat/>
+        </Col>
+
+        <Col md={6} lg={4} className='order-md-2 order-lg-3'>
+          <StopsStat/>
+        </Col>
+      </Row>
+    </Container>
+  </main>
+)

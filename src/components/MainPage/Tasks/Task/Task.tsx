@@ -2,7 +2,6 @@ import React, { FC, useEffect, useRef } from 'react'
 import { FormControl, ListGroup, Stack } from 'react-bootstrap'
 import { useTaskState } from '../../../../utils/state/hooks/useTaskState'
 import { Menu } from './Menu/Menu'
-import './Task.css'
 
 interface TaskProps {
   value: string 

@@ -3,3 +3,8 @@
   background: url('../../../../public/img/pausebg.svg') no-repeat 95% center / 115px 115px,
             #DFDCFE;
 }
+
+.pauseStat.lost {
+  background: url('../../../../public/img/pausebg-lost.svg') no-repeat 95% center / 130px 130px,
+  #F4F4F4 !important;
+}

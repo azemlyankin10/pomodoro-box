@@ -3,3 +3,8 @@
   background: url('../../../../public/img/stopbg.svg') no-repeat 95% center / 115px 115px,
             #C5F1FF;
 }
+
+.stopsStat.lost {
+  background: url('../../../../public/img/stopbg-lost.svg') no-repeat 95% center / 130px 130px,
+  #F4F4F4 !important;
+}

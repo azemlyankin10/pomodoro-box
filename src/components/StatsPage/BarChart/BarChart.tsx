@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useRef } from 'react'
 import './BarChart.css'
 import {
@@ -9,10 +11,11 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js'
-import { Bar, getDatasetAtEvent, getElementAtEvent } from 'react-chartjs-2'
+import { Bar, getElementAtEvent } from 'react-chartjs-2'
 import { humanTime } from '../../../utils/js/humanTime'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { getStatByDays } from '../../../store/selectors'
+import { dayState } from '../../../store/atoms'
 
 ChartJS.register(
   CategoryScale,
@@ -31,7 +34,7 @@ export const options: any = {
   layout: {
     padding: {
       top: 0,
-      right: 50,
+      right: 10,
       bottom: 10,
       left: 20
     }
@@ -85,10 +88,17 @@ const labels = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
 export const BarChart = () => {
   const ref = useRef(null)
   const { workTime } = useRecoilValue(getStatByDays)
+  const setDay = useSetRecoilState(dayState)
 
   const onClick = (e: any) => {
-    if(ref.current)
-      console.log(getElementAtEvent(ref.current, e))
+    if(ref.current) {
+      const el = getElementAtEvent(ref.current, e)
+      if(el[0] && el[0].index) {
+        const day = el[0].index
+        setDay(day)
+      }
+    }
+   
   }
 
   const data = {
@@ -108,4 +118,3 @@ export const BarChart = () => {
   )
 }
 
-// getWeek(workTime as [])

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { commonState } from '../../../store/atoms'
-import { getCurrentTask, getTimeout } from '../../../store/selectors'
+import { getCurrentTask, getSettingsData, getTimeout } from '../../../store/selectors'
 import { EIcons, Icon } from '../../../utils/ui/Icon/Icon'
 import { Dashboard } from './Dashboard/Dashboard'
 import useSound from 'use-sound'
@@ -17,6 +17,7 @@ export const DashboardContainer = () => {
   const [pause, setPause] = useState(false)
   const [state, setState] = useRecoilState(commonState)
   const timeout = useRecoilValue(getTimeout)
+  const { pomodoroTime, notification } = useRecoilValue(getSettingsData)
   const task = useRecoilValue(getCurrentTask)  
   const [playSuccess] = useSound(soundSuccess)
   const [playTimeoutOver] = useSound(soundTimeout)
@@ -70,32 +71,36 @@ export const DashboardContainer = () => {
       timeoutRunning: true, 
       completedTasks
     })
+    const currentPomodor = task.curTask.currentPomodor + 1
+    const done = currentDone(currentPomodor, task.curTask.pomodors)
+    if(done) {
+      setState({ ...state, timeoutRunning: false })
+    }
+    changeTaskState(task.curTask.id, {currentPomodor, done})
     setTick(false)
     setStop(true)
-    playSuccess()
+    notification && playSuccess()
 
     // add stats
-    addWorkTimeStat(task.curTask.time)
+    addWorkTimeStat(pomodoroTime)
   }  
 
   const onCompleteTimeout = () => {
     setState({ ...state, timerRunning: false, timeoutRunning: false })
-    const currentPomodor = task.curTask.currentPomodor + 1
-    const done = currentDone(currentPomodor, task.curTask.pomodors)
-    changeTaskState(task.curTask.id, {currentPomodor, done})
-    playTimeoutOver()
+
+    notification && playTimeoutOver()
 
     // add stats
     addPomodorStat()
   }
 
-  const { curTask: { value, currentPomodor, time }, index } = task
+  const { curTask: { value, currentPomodor }, index } = task
   return (
     <Dashboard
       taskName={value}
       currentPomodor={currentPomodor}
       index={index}
-      time={.3}
+      time={pomodoroTime} 
       isStart={tick}
       isStop={stop}
       isPause={pause}
@@ -118,7 +123,7 @@ function Empty() {
   return (
     <div className='px-5 py-5 bg-grey-1'>
       <p className='text-center'>
-        <Icon name={EIcons.tomato} size={60} viewBox='0 0 40 40' />
+        <Icon name={EIcons.tomatoSmile} size={80} viewBox='0 0 115 115' />
         <span className='d-block mt-3 fs-2'>Добавьте задачу!</span>
       </p>
     </div>
