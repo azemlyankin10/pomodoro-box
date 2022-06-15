@@ -6,6 +6,10 @@
   align-items: center;
 }
 
+.dark .header {
+  background-color: var(--background-darkMode);
+}
+
 .nav-color {
   color: var(--red);
 }

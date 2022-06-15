@@ -9,17 +9,22 @@ type Settings = {
   longBreak: number
   countBreak: number
   notification: boolean
+  darkMode: boolean
 }
 
 export const settingsState = atom<Settings>({
   key: 'settings',
   default: {
     pomodoroTime: 25,
-    shortBreak: 5,
+    shortBreak: 3,
     longBreak: 30,
     countBreak: 4,
-    notification: true
+    notification: true,
+    darkMode: false
   },
+  effects: [
+    localStorageEffect('settings'),
+  ]
 })
 
 export type Task = {
@@ -40,30 +45,31 @@ export const tasksState = atom<Task[]>({
 })
 
 
-export type CommotState = {
-  completedTasks: number
-  timerRunning: boolean
-  timeoutRunning: boolean
-  timerOnPause: boolean
-  successDeleteTaskToast: boolean
+type TimerControl = {
+  isPlay: boolean
+  isTaskRun: boolean
+  isTimeoutRun: boolean
+  isPause: boolean
+  isStop: boolean
   leftTime: number
+  completedTimes: number
 }
 
-export const commonState = atom<CommotState>({
-  key: 'commonState',
+export const timerControlState = atom<TimerControl>({
+  key: 'timerControl',
   default: {
-    completedTasks: 0,
-    timerRunning: false,
-    timeoutRunning: false,
-    timerOnPause: false,
-    successDeleteTaskToast: false,
-    leftTime: 0
+    isPlay: false,
+    isTaskRun: false,
+    isTimeoutRun: false,
+    isPause: false,
+    isStop: false,
+    leftTime: 0,
+    completedTimes: 0
   },
   effects: [
-    sessionStorageEffect('commonState'),
+    sessionStorageEffect('timerControl'),
   ]
 })
-
 
 export const statsState = atom({
   key: 'stats',
@@ -86,4 +92,12 @@ export const dayState = atom({
 export const rangeWeekState = atom({
   key: 'rangeWeek',
   default: 'week' as SelectValue
+})
+
+export const showToastsState = atom({
+  key: 'showToasts',
+  default: {
+    delete: false,
+    success: false
+  }
 })

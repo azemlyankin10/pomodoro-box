@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { Button, ButtonGroup } from 'react-bootstrap'
 import { useRecoilValue } from 'recoil'
-import { commonState } from '../../../../../store/atoms'
+import { timerControlState } from '../../../../../store/atoms'
 import './ControlBtns.css'
 
 interface ControlBtnsProps {
@@ -9,58 +9,59 @@ interface ControlBtnsProps {
   onStop: () => void
   onPause: () => void
   onDone: () => void
-  isStart: boolean
 }
 
-export const ControlBtns: FC<ControlBtnsProps> = ({ onStart, onStop, onPause, onDone, isStart }) => {
-  const { timerRunning, timerOnPause } = useRecoilValue(commonState)
+export const ControlBtns: FC<ControlBtnsProps> = ({ onStart, onStop, onPause, onDone }) => {
+  const { isPlay, isPause, isTaskRun } = useRecoilValue(timerControlState)
 
   return (
     <ButtonGroup className='mb-xl-5'>
-  
-      {
-        timerRunning 
-        ? <Button 
-              variant='success' 
-              className='btn-green me-3'
-              style={{ width: 145 }} 
-              onClick={onPause}
-            >
-              {timerOnPause ? 'Продолжить' : 'Пауза'}
-          </Button>
 
-        : <Button 
+      {!isPlay && !isTaskRun && (
+        <Button 
             variant='success' 
             className='btn-green me-3'
             style={{ width: 145 }} 
             onClick={onStart}
           >
             Старт
-          </Button>    
-      }
+        </Button>  
+      )}
 
-      {
-        timerOnPause 
-          ? <Button 
-              variant='outline-danger'
-              className='btn-red-outline'
-              style={{ width: 138 }}
-              onClick={onDone}
-            >
-              Сделано
-            </Button>
+      {isTaskRun && (
+        <Button 
+          variant='success' 
+          className='btn-green me-3'
+          style={{ width: 145 }} 
+          onClick={onPause}
+        >
+          {isPause ? 'Продолжить' : 'Пауза'}
+        </Button>
+      )}
 
-          : <Button 
-              variant='outline-danger'
-              className='btn-red-outline'
-              style={{ width: 138 }}
-              disabled={!isStart}
-              onClick={onStop}
-            >
-              Стоп
-            </Button>
-      }
-  
+      {!isPause && (
+        <Button 
+          variant='outline-danger'
+          className='btn-red-outline'
+          style={{ width: 138 }}
+          disabled={!isPlay}
+          onClick={onStop}
+        >
+          Стоп
+        </Button>
+      )}
+
+      {isPause && (
+        <Button 
+          variant='outline-danger'
+          className='btn-red-outline'
+          style={{ width: 138 }}
+          onClick={onDone}
+        >
+          Сделано
+        </Button>
+      )}
+
     </ButtonGroup>
   )
 }

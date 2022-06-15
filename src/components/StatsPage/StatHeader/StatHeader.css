@@ -1,1 +1,3 @@
-.StatHeader {}
+.dark .statHeader__title {
+  color: var(--taskColor-darkMode) !important;
+}

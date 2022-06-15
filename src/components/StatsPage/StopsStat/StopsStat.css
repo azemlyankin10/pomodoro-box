@@ -8,3 +8,11 @@
   background: url('../../../../public/img/stopbg-lost.svg') no-repeat 95% center / 130px 130px,
   #F4F4F4 !important;
 }
+
+.dark .stopsStat.lost {
+  background-color: var(--grey-darkMode) !important;
+}
+
+.dark .stopsStat.lost .stopsStat__text {
+  color: var(--textColor-darkMode);
+}

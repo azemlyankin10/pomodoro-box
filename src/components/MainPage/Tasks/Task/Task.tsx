@@ -56,7 +56,7 @@ export const Task: FC<TaskProps> = ({ value, pomodors, id, done, edit }) => {
   return (
     <ListGroup.Item
       as='li'
-      className={`rounded-0 border-end-0 border-start-0 px-0 py-3 ${classDone}`}
+      className={`rounded-0 border-end-0 border-start-0 px-0 py-3 ${classDone} task`}
       key={id}
     >
       <Stack direction="horizontal" gap={3}>

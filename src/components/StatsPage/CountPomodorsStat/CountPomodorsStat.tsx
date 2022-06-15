@@ -20,7 +20,7 @@ export const CountPomodorsStat = () => {
                 <span className='text-grey ms-3 fs-4 mt-1'>х {pomodors}</span>
               </div>
               <div className='bg-danger mt-auto'>
-                <p className='text-light text-center m-0 p-2 fs-5'>{pomodors} помидора</p>
+                <p className='text-light text-center m-0 p-2 fs-5 countPomodorsStat__text'>{pomodors} помидора</p>
               </div>
             </>
           )

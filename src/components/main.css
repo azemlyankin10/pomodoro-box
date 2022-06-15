@@ -9,6 +9,15 @@
   --grey: #F4F4F4;
   --grey-1: #c4c4c4;
   --grey-dark: #E4E4E4;
+
+  /* dark */
+  --background-darkMode: #111;
+  --background-1-darkMode: rgb(33, 31, 31);
+  --textColor-darkMode: #c3c3c3;
+  --inputColor-darkMode: #c3c3c3;
+  --taskColor-darkMode: #c3c3c3;
+  --grey-darkMode: #333;
+
 }
 
 @font-face {
@@ -62,6 +71,10 @@ body {
   background-color: var(--grey);
 }
 
+.dark .bg-grey-1 {
+  background-color: var(--grey-darkMode);
+}
+
 .bg-danger {
   background-color: var(--red) !important;
 }
@@ -107,6 +120,10 @@ body {
   min-height: 55px;
 }
 
+.dark .btn-green {
+  background-color: #899441;
+}
+
 .btn-green:hover {
   background-color: #899441;
   border-color: #899441;
@@ -143,4 +160,31 @@ body {
 /* fs */
 .fs-big {
   font-size: 4rem;
+}
+
+.custom-check .form-check-input:checked {
+  background-color: var(--green);
+  border-color: var(--green);
+}
+
+/* /////dark */
+.dark {
+  background-color: var(--background-1-darkMode);
+}
+
+.dark .text-dark {
+  color: var(--textColor-darkMode) !important;
+}
+
+.fade-in {
+  animation: fade-in 0.8s ease;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: .3;
+  }
+  100% {
+    opacity: 1;
+  }
 }

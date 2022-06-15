@@ -1,3 +1,7 @@
 .countPomodorsStat {
   min-height: 180px;
 }
+
+.dark .countPomodorsStat__text {
+  color: var(--textColor-darkMode) !important;
+}

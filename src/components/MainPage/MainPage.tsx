@@ -5,6 +5,7 @@ import { FormComponent } from './Form/Form'
 import './MainPage.css'
 import { Tasks } from './Tasks/Tasks'
 import { DashboardContainer } from './DashboardContainer/DashboardContainer'
+import Settings from '../Settings/Settings'
 
 export const MainPage = () => (
   <main className='py-5 mb-5 mt-xl-3'>
@@ -31,7 +32,11 @@ export const MainPage = () => (
 
         </Col>
       </Row>
+
+      <Settings/>
+      
     </Container>
+
   </main>
 )
 
