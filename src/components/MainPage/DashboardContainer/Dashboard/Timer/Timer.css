@@ -8,6 +8,11 @@
   }
 }
 
+.dark .fs-timer {
+  color: var(--textColor-darkMode);
+}
+
 .red-timer .fs-timer {
   color: var(--red);
 }
+

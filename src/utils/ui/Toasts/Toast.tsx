@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom'
 import { Icon, EIcons } from '../Icon/Icon'
 
 
-export const ToastComponent = () => {
+export const ToastComponent = ({ body }: { body: string }) => {
 
   const node = document.querySelector('#modal-root')
   if(!node) return null
@@ -15,7 +15,7 @@ export const ToastComponent = () => {
         <strong className="me-auto ms-2">Pomodoro_box</strong>
       </Toast.Header>
       <Toast.Body>
-        Удаление прошло успешно
+        {body}
       </Toast.Body>
     </Toast>
   ), node)

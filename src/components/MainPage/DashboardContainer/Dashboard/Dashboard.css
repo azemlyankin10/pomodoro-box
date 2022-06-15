@@ -1,0 +1,3 @@
+.dark .dashboard-taskName {
+  color: var(--textColor-darkMode) !important;
+}

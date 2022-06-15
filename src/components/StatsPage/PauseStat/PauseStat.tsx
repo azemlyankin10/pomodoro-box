@@ -10,8 +10,8 @@ export const PauseStat = () => {
 
   return (
     <div className={`pauseStat p-4 ${!pauses || pauses < 1 ? 'lost' : ''}`}>
-      <h3 className='fs-4 mb-2'>Время на паузе</h3>
-      <p className='fs-big m-0'>{humanTime(pauses, 'pause')}</p>
+      <h3 className='fs-4 mb-2 pauseStat__text'>Время на паузе</h3>
+      <p className='fs-big m-0 pauseStat__text'>{humanTime(pauses, 'pause')}</p>
     </div>
   )
 }

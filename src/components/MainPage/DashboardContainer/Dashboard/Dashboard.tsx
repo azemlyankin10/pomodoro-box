@@ -9,19 +9,15 @@ interface Dashboard {
   currentPomodor: number
   index: number
   time: number
-  isStart: boolean
-  isStop: boolean
-  isPause: boolean
   onStart: () => void
   onStop: () => void
   onPause: () => void
   onDone: () => void
   addPomodoro: () => void
   timerComplete: () => void
-  timeout: boolean
+  isTimeout: boolean
   timeoutTime: number
-  isTimeoutStart: boolean
-  timerTimeoutComplete: () => void
+  onTimeoutComplete: () => void
 }
 
 export const Dashboard: FC<Dashboard> = ({ 
@@ -29,41 +25,34 @@ export const Dashboard: FC<Dashboard> = ({
   currentPomodor, 
   index, 
   time, 
-  isStart, 
-  isStop, 
-  isPause,
   onStart, 
   onStop,
   onPause, 
   onDone,
   addPomodoro, 
   timerComplete,
-  timeout,
+  isTimeout,
   timeoutTime,
-  isTimeoutStart,
-  timerTimeoutComplete
+  onTimeoutComplete
 }) => (
-  <div className="dashboard">
+  <>
+    {!isTimeout && (
+      <div className="dashboard">
 
-    <DBHeader taskName={taskName} index={currentPomodor}  />
+        <DBHeader taskName={taskName} index={currentPomodor}  />
 
-    <div className="bg-grey-1 d-flex justify-content-center align-items-center">
-      <div className='d-flex flex-column align-items-center my-5'>
-        {!timeout && (
-          <>
+        <div className="bg-grey-1 d-flex justify-content-center align-items-center">
+          <div className='d-flex flex-column align-items-center my-5'>
             <Timer 
               time={time} 
-              start={isStart} 
-              stop={isStop}
-              pause={isPause}
               addPomodoro={addPomodoro} 
               timerComplete={timerComplete}    
             />
-            <p className="d-flex align-items-center mb-4">
+            <p className="d-flex align-items-center mb-4 dashboard-taskName">
               <span className='text-grey'>
                 Задача {index} -&nbsp;
               </span>
-            {taskName}
+              {taskName}
             </p>
 
             <ControlBtns
@@ -71,24 +60,41 @@ export const Dashboard: FC<Dashboard> = ({
               onStop={onStop}
               onPause={onPause}
               onDone={onDone}
-              isStart={isStart}
             />
-          </>  
-        )}
-        {timeout && (
-          <>
-            <Timer 
-              time={timeoutTime} 
-              start={isTimeoutStart} 
-              timerComplete={timerTimeoutComplete}    
-            />
-            <p className="d-flex align-items-center mb-4">
-              Пора отдохнуть!
-            </p>
-          </>
-        )}
+          </div>
+        </div>
+
+      </div>
+    )}
+    {isTimeout && (
+      <DashboardTimout 
+        timeoutTime={timeoutTime}
+        onTimeoutComplete={onTimeoutComplete}
+      />
+    )}
+  </>
+  
+)
+
+type DashboardTimout = {
+  timeoutTime: number
+  onTimeoutComplete: () => void
+}
+
+export const DashboardTimout:FC<DashboardTimout> = ({ timeoutTime, onTimeoutComplete }) => {
+
+  return (
+    <div className="bg-grey-1 d-flex justify-content-center align-items-center">
+      <div className='d-flex flex-column align-items-center my-5'>
+        <Timer 
+          time={timeoutTime} 
+          timerComplete={onTimeoutComplete}  
+        />
+        <p className="d-flex align-items-center mb-4">
+          Пора отдохнуть!
+        </p>
       </div>
     </div>
+  )
+}
 
-  </div>
-)

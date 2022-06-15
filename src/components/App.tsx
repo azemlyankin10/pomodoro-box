@@ -6,10 +6,12 @@ import { MainPage } from './MainPage/MainPage'
 import { ThemeProvider } from 'react-bootstrap'
 import { RecoilRoot } from 'recoil'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Layout } from '../utils/ui/Layout/Layout'
 import { StatsPage } from './StatsPage/StatsPage'
+import { Layout } from './Layout/Layout'
+
 
 function App() {
+
   return (
     <BrowserRouter>
       <RecoilRoot>

@@ -10,7 +10,7 @@ import './StatsPage.css'
 import { StopsStat } from './StopsStat/StopsStat'
 
 export const StatsPage = () => (
-  <main className='py-5 mb-5 mt-xl-3'>
+  <main className='py-5 mt-xl-3'>
     <Container>
       <Row className='mb-4'>
         <StatHeader />

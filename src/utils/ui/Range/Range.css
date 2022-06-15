@@ -1,0 +1,11 @@
+.custom-range::-webkit-slider-thumb {
+  background: var(--green);
+}
+
+.custom-range::-moz-range-thumb {
+  background: var(--green);
+}
+
+.custom-range::-ms-thumb {
+  background: var(--green);
+}

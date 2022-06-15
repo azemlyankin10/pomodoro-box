@@ -8,3 +8,11 @@
   background: url('../../../../public/img/focusbg-lost.svg') no-repeat 95% center / 130px 130px,
   #F4F4F4 !important;
 }
+
+.dark .focusStat.lost {
+  background-color: var(--grey-darkMode) !important;
+}
+
+.dark .focusStat.lost .focusStat__text {
+  color: var(--textColor-darkMode);
+}

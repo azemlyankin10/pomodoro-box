@@ -1,3 +1,7 @@
 .oneDayActivityStat {
   min-height: 200px;
 }
+
+.dark .oneDayActivityStat__text {
+  color: var(--textColor-darkMode) !important;
+}

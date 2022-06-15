@@ -1,8 +1,7 @@
 import React from 'react'
 import { ListGroup } from 'react-bootstrap'
 import { useRecoilValue } from 'recoil'
-import { tasksState } from '../../../store/atoms'
-import { getSettingsData } from '../../../store/selectors'
+import { settingsState, tasksState } from '../../../store/atoms'
 import { humanTime } from '../../../utils/js/humanTime'
 import { Task } from './Task/Task'
 import './Tasks.css'
@@ -10,7 +9,7 @@ import './Tasks.css'
 
 export const Tasks = () => {
   const tasks = useRecoilValue(tasksState)
-  const { pomodoroTime } = useRecoilValue(getSettingsData)
+  const { pomodoroTime } = useRecoilValue(settingsState)
 
   const fullTime = tasks.reduce((a, b) => {
     let time = 0

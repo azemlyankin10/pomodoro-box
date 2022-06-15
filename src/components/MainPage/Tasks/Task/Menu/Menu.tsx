@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Dropdown } from 'react-bootstrap'
-import { useRecoilState } from 'recoil'
-import { commonState, Task, tasksState } from '../../../../../store/atoms'
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import { showToastsState, Task, tasksState } from '../../../../../store/atoms'
 import { currentDone } from '../../../../../utils/state/currentDone'
 import { useTaskState } from '../../../../../utils/state/hooks/useTaskState'
 import { Icon, EIcons } from '../../../../../utils/ui/Icon/Icon'
@@ -10,7 +10,7 @@ import './Menu.css'
 
 export const Menu = ({ id }: { id: string }) => {
   const [tasks, setTasks] = useRecoilState(tasksState)
-  const [_commotState, createToast] = useRecoilState(commonState)
+  const setIsToast = useSetRecoilState(showToastsState)
   const [currentTask, setCurrentTask] = useState({} as Task) 
   const [disableDecrement, setDisableDecrement] = useState(false)
   const [isModal, setIsModal] = useState(false)
@@ -90,7 +90,9 @@ export const Menu = ({ id }: { id: string }) => {
               onHide={() => setIsModal(false)}
               onDelete={() => { 
                 setTasks(tasks.filter(el => el.id !== id)) 
-                createToast({ ..._commotState, successDeleteTaskToast: true })
+                setIsToast((state) => {
+                  return { ...state, delete: true }
+                })
               }}
             />
           </button>

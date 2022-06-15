@@ -1,6 +1,6 @@
 import { selector } from 'recoil'
 import { getWeek } from '../utils/js/getArrOfDays'
-import { commonState, dayState, rangeWeekState, settingsState, statsState, Task, tasksState } from './atoms'
+import { dayState, rangeWeekState, settingsState, statsState, Task, tasksState, timerControlState } from './atoms'
 
 export const getCurrentTask = selector({
   key: 'getCurrentTasks',
@@ -14,28 +14,13 @@ export const getCurrentTask = selector({
   }
 })
 
-export const getSettingsData = selector({
-  key: 'getSettings',
-  get: ({get}) => {
-    const state = get(settingsState)
-
-    return { 
-      pomodoroTime: state.pomodoroTime,
-      shortBreak: state.shortBreak,
-      longBreak: state.longBreak,
-      countBreak: state.countBreak,
-      notification: state.notification
-    }
-  }
-})
-
 
 export const getTimeout = selector({
   key: 'getTimeout',
   get: ({get}) => {
-    const state = get(commonState)
-    const settings = get(getSettingsData)    
-    if(state.completedTasks < settings.countBreak) return settings.shortBreak
+    const { completedTimes } = get(timerControlState)
+    const settings = get(settingsState)    
+    if(completedTimes < settings.countBreak) return settings.shortBreak
     return settings.longBreak
   }
 })

@@ -1,60 +1,96 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
-import { commonState } from '../../../store/atoms'
-import { getCurrentTask, getSettingsData, getTimeout } from '../../../store/selectors'
+import { settingsState, timerControlState } from '../../../store/atoms'
+import { getCurrentTask, getTimeout } from '../../../store/selectors'
 import { EIcons, Icon } from '../../../utils/ui/Icon/Icon'
-import { Dashboard } from './Dashboard/Dashboard'
+import { Dashboard, DashboardTimout } from './Dashboard/Dashboard'
 import useSound from 'use-sound'
 import soundSuccess from '../../../utils/sound/success-sound-effect.mp3'
 import soundTimeout from '../../../utils/sound/timoutover.mp3'
 import { useTaskState } from '../../../utils/state/hooks/useTaskState'
 import { currentDone } from '../../../utils/state/currentDone'
 import { useStatsState } from '../../../utils/state/hooks/useStatsState'
+import { sendNotification } from '../../../utils/js/notification'
 
 export const DashboardContainer = () => {
-  const [tick, setTick] = useState(false)
-  const [stop, setStop] = useState(false)
-  const [pause, setPause] = useState(false)
-  const [state, setState] = useRecoilState(commonState)
+  const [timerControl, setTimerControl] = useRecoilState(timerControlState)
   const timeout = useRecoilValue(getTimeout)
-  const { pomodoroTime, notification } = useRecoilValue(getSettingsData)
+  const { pomodoroTime, notification, countBreak } = useRecoilValue(settingsState)
   const task = useRecoilValue(getCurrentTask)  
   const [playSuccess] = useSound(soundSuccess)
   const [playTimeoutOver] = useSound(soundTimeout)
   const [changeTaskState] = useTaskState()
   const { addStopStat, addWorkTimeStat, addPomodorStat, pauseStat } = useStatsState()
-  if(!task) return <Empty />
+
 
   const onStart = () => {
-    setState({ ...state, timerRunning: true, timeoutRunning: false })
-    setTick(true)
-    setStop(false)
-    setPause(false)
+    setTimerControl({ 
+      ...timerControl,  
+      isPlay: true,
+      isTaskRun: true,
+      isStop: false
+    })
   }
 
   const onStop = () => {
-    setState({ ...state, timerRunning: false, timeoutRunning: false, timerOnPause: false })
-    setTick(false)
-    setStop(true)
-    setPause(false)
+    setTimerControl({
+      ...timerControl,  
+      isPlay: false,
+      isTaskRun: false,
+      isStop: true,
+    })
+
     // add stats
     addStopStat()
   }
 
   const onPause = () => {
-    setState({ ...state, timerOnPause: !pause })
-    setPause(!pause)
-    setTick(!tick)
-    setStop(false)
+    setTimerControl({ 
+      ...timerControl, 
+      isPlay: !timerControl.isPlay,
+      isPause: !timerControl.isPause,
+      isStop: false
+    })
 
     // add stats
     pauseStat()
   }
 
+  const onTimeoutComplete = () => {
+    setTimerControl({ 
+      ...timerControl,  
+      isPlay: false,
+      isTaskRun: false,
+      isStop: false,
+      isTimeoutRun: false
+    })
+    if(notification) {
+      playTimeoutOver()
+    }
+
+    sendNotification('Перерыв окончен!', {
+      body: 'Можно приступать к выполнению следующего помидора',
+    })
+
+    // add stats
+    addPomodorStat()
+  }
+
+  if(!task && timerControl.isTimeoutRun) {
+    return <DashboardTimout timeoutTime={timeout} onTimeoutComplete={onTimeoutComplete}/>
+  }
+  if(!task) return <Empty />
+
   const onDone = () => {
+    setTimerControl({ 
+      ...timerControl,
+      isPlay: false,
+      isTaskRun: false,
+      isPause: !timerControl.isPause,
+      leftTime: 0 
+    })
     const pomodors = task.curTask.currentPomodor
     changeTaskState(task.curTask.id, {pomodors, done: true})
-    onStop()
   }
 
   const addPomodoro = () => {    
@@ -62,58 +98,49 @@ export const DashboardContainer = () => {
   }
 
   const onComplete = () => {
-    const completedTasks = state.completedTasks >= 4
+    const completedTimes = timerControl.completedTimes >= countBreak
       ? 0
-      : state.completedTasks + 1 
-    setState({ 
-      ...state, 
-      timerRunning: false, 
-      timeoutRunning: true, 
-      completedTasks
+      : timerControl.completedTimes + 1 
+
+    setTimerControl({ 
+    ...timerControl, 
+      isTaskRun: false,
+      isTimeoutRun: true,
+      isStop: false,
+      completedTimes
     })
     const currentPomodor = task.curTask.currentPomodor + 1
     const done = currentDone(currentPomodor, task.curTask.pomodors)
-    if(done) {
-      setState({ ...state, timeoutRunning: false })
-    }
     changeTaskState(task.curTask.id, {currentPomodor, done})
-    setTick(false)
-    setStop(true)
-    notification && playSuccess()
+    if(notification) {
+      playSuccess()
+    }
+
+    sendNotification('Помидор завершен!', {
+      body: 'Сделайте перерыв, прежде чем начать новый помидор',
+    })
 
     // add stats
     addWorkTimeStat(pomodoroTime)
   }  
 
-  const onCompleteTimeout = () => {
-    setState({ ...state, timerRunning: false, timeoutRunning: false })
-
-    notification && playTimeoutOver()
-
-    // add stats
-    addPomodorStat()
-  }
-
   const { curTask: { value, currentPomodor }, index } = task
+
   return (
     <Dashboard
       taskName={value}
       currentPomodor={currentPomodor}
       index={index}
       time={pomodoroTime} 
-      isStart={tick}
-      isStop={stop}
-      isPause={pause}
       onStart={onStart}
       onStop={onStop}
       onPause={onPause}
       onDone={onDone}
       addPomodoro={addPomodoro}
       timerComplete={onComplete}
-      timeout={state.timeoutRunning} 
-      timeoutTime={timeout} 
-      isTimeoutStart={state.timeoutRunning} 
-      timerTimeoutComplete={onCompleteTimeout}
+      isTimeout={timerControl.isTimeoutRun}
+      timeoutTime={timeout}
+      onTimeoutComplete={onTimeoutComplete}
     />
   )  
 }
@@ -124,7 +151,7 @@ function Empty() {
     <div className='px-5 py-5 bg-grey-1'>
       <p className='text-center'>
         <Icon name={EIcons.tomatoSmile} size={80} viewBox='0 0 115 115' />
-        <span className='d-block mt-3 fs-2'>Добавьте задачу!</span>
+        <span className='d-block mt-3 fs-2 text-dark'>Добавьте задачу!</span>
       </p>
     </div>
   )

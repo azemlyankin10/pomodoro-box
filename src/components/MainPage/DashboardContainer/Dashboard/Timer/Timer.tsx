@@ -2,47 +2,69 @@ import React, { FC, useEffect, useRef, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import Countdown, { zeroPad } from 'react-countdown'
 import { useRecoilState } from 'recoil'
-import { commonState } from '../../../../../store/atoms'
+import { timerControlState } from '../../../../../store/atoms'
+
 import './Timer.css'
+
 
 interface Timer {
   time: number
-  start: boolean
-  stop?: boolean
-  pause?: boolean
   addPomodoro?: () => void
   timerComplete: () => void
 }
 
-export const Timer: FC<Timer> = ({ time, start, stop, pause, addPomodoro, timerComplete }) => {
+export const Timer: FC<Timer> = ({ time, addPomodoro, timerComplete }) => {
   const ref = useRef<Countdown>(null)
-  const [_commonState, setCommonState] = useRecoilState(commonState)
-  const { timeoutRunning, timerRunning, timerOnPause, leftTime } = _commonState
+  const [timerControl, setTimerControl] = useRecoilState(timerControlState)
+  const { isPlay, isTaskRun, isStop, isPause, leftTime, isTimeoutRun } = timerControl
 
-  let timeForTimer =  Date.now() + time * 60 * 1000
-  if(leftTime > 1000) timeForTimer = Date.now() + leftTime
-  const [currentTime] = useState(timeForTimer)
+  const timeForTimer = Date.now() + time * 60 * 1000
+  const [currentTime, setCurrentTime] = useState(leftTime > 1000 ? Date.now() + leftTime : timeForTimer)
 
+  const [isSec, setIsSec] = useState(true)
+  
 
   useEffect(() => {
-    if(start) ref.current?.start()
-    if(stop) ref.current?.stop()
-    if(pause) ref.current?.pause()
-  }, [start, stop, pause])
+    if(isPlay) ref.current?.start()
+    if(isStop) ref.current?.stop()
+    if(isPause) ref.current?.pause()
+  }, [isPlay, isStop, isPause])
 
   return (
-    <div className={`${timerRunning && !timerOnPause ? 'red-timer' : ''} d-flex align-items-center px-3`}>
+    <div className={`${isPlay && isTaskRun ? 'red-timer' : ''} d-flex align-items-center px-3`}>
       <Countdown 
         date={currentTime} 
-        renderer={renderer}
-        autoStart={leftTime > 1000 && !timerOnPause}
-        onComplete={() => { setCommonState({ ..._commonState, leftTime: 0 }), timerComplete() }}
+        renderer={({ hours, minutes, seconds }) => {
+          const time = hours < 1 
+            ? `${zeroPad(minutes)}:${zeroPad(seconds)}`
+            : `${zeroPad(hours)}:${zeroPad(minutes)}:${zeroPad(seconds)}`
+          return (
+            <div 
+              className='fw-light me-3 fs-timer'
+            >
+              {time}
+            </div>   
+        
+          )
+        }}
+        autoStart={isTimeoutRun || leftTime > 1000 && isPlay }
+        onComplete={() => { 
+          setTimerControl({ ...timerControl, leftTime: 0 }), 
+          timerComplete() 
+        }}
         onPause={(a) => console.log(a)}
-        onStop={() => { setCommonState({ ..._commonState, leftTime: 0 }) }}
-        onTick={({total}) => { setCommonState({ ..._commonState, leftTime: total }) }}
+        onStop={() => { 
+          setCurrentTime(timeForTimer), 
+          setTimerControl({ ...timerControl, leftTime: 0 })
+        }}
+        onTick={({total}) => { 
+          setTimerControl({ ...timerControl, leftTime: total }) 
+
+          setIsSec(!isSec)
+        }}
         ref={ref}
       />
-      {!timeoutRunning && (
+      {!isTimeoutRun && (
         <Button 
           className='btn-grey-round fs-4 px-3'
           onClick={addPomodoro}
@@ -55,16 +77,6 @@ export const Timer: FC<Timer> = ({ time, start, stop, pause, addPomodoro, timerC
 }
 
 
-function renderer({ hours, minutes, seconds }: { hours: number, minutes: number, seconds: number }) {
-  const time = hours < 1 
-    ? `${zeroPad(minutes)}:${zeroPad(seconds)}`
-    : `${zeroPad(hours)}:${zeroPad(minutes)}:${zeroPad(seconds)}`
-  
-  return (
-    <span 
-      className='fw-light me-3 fs-timer'
-    >
-      {time}
-    </span>   
-  )
-}
+
+
+

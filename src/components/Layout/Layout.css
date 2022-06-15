@@ -3,3 +3,7 @@
   background-color: var(--LayoutColor);
   min-height: 100vh;
 }
+
+.dark.layout {
+  background-color: var(--background-1-darkMode);
+}

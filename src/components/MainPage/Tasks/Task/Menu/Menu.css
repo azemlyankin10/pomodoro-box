@@ -15,6 +15,11 @@
               #fff;
 }
 
+
+.dark .menu__dropdown::before {
+  display: none;
+}
+
 .menu__btn::after {
   display: none !important;
 }
@@ -30,6 +35,10 @@
 .menu__btn:active,
 .menu__btn:focus {
   background-color: var(--grey) !important;
+}
+
+.dark .menu__btn svg circle {
+  fill: rgb(226 221 221) !important;
 }
 
 .show>.menu__btn.dropdown-toggle:focus {

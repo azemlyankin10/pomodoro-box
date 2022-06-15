@@ -2,18 +2,8 @@
   width: 70%;
 }
 
-/* .tasks__li {
-  background-color: transparent;
-  border: none;
-  border-radius: 0;
-  border-top: 1px solid var(--grey-dark);
+.dark .task {
+  background-color: var(--taskColor-darkMode);
+  padding-left: 10px !important;
 }
 
-.tasks__li:first-child {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-
-.list-group-item+.list-group-item {
-  border-top-width: initial;
-} */

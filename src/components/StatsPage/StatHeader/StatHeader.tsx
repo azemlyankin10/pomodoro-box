@@ -4,7 +4,7 @@ import './StatHeader.css'
 
 export const StatHeader = () => (
   <div className='d-flex align-items-center flex-wrap flex-md-nowrap'>
-    <h2 className='w-100'>
+    <h2 className='w-100 statHeader__title'>
       Ваша активность
     </h2>
     <div className='ms-md-auto'>

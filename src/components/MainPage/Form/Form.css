@@ -16,3 +16,11 @@
   border-color: var(--green);
   box-shadow: 0 0 0 .25rem rgba(168, 182, 79, .25);
 }
+
+.dark .form-input {
+  background-color: var(--inputColor-darkMode)
+}
+
+.dark .form-input::placeholder {
+  color: #000;
+}

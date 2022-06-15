@@ -1,6 +1,8 @@
 import { SelectValue } from '../../components/StatsPage/StatHeader/Select/Select'
 import { day_month_year } from './day_month_year'
 
+/////
+
 export const getWeek = (arr: [], range: SelectValue) => {
   const msInOneDay = 86400000 
   let weekRange = 0
@@ -8,13 +10,16 @@ export const getWeek = (arr: [], range: SelectValue) => {
   if(range === 'lastweek') weekRange = 7
   if(range === '2weekago') weekRange = 14
 
-  let dayTooday = 0
-  if(new Date().getDay() - 1 === -1) {
-    dayTooday = dayTooday - 1 + 7 + weekRange
+  const weekDay = new Date().getDay()
+
+  let dayTooday
+  if (weekDay > 1) {
+    dayTooday = new Date().getDay() - 1 + weekRange
+  } else if (weekDay === 0) {
+    dayTooday = new Date().getDay() - 1 + 7 + weekRange
   } else {
-    dayTooday = dayTooday - 1 + weekRange
+    dayTooday = new Date().getDay() - 1 + weekRange
   }
-  
 
   const mon = new Date(Date.now() - (dayTooday * msInOneDay))
   const tue = new Date(Number(mon) + msInOneDay)
@@ -24,9 +29,8 @@ export const getWeek = (arr: [], range: SelectValue) => {
   const sat = new Date(Number(fri) + msInOneDay)
   const sun = new Date(Number(sat) + msInOneDay)
   
-
   const week = [mon, tue, wed, thu, fri, sat, sun].map(el => day_month_year(el))
-
+  
 
   return week.map(a => (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
