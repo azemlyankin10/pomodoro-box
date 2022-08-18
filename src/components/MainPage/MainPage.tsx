@@ -8,7 +8,7 @@ import { DashboardContainer } from './DashboardContainer/DashboardContainer'
 import Settings from '../Settings/Settings'
 
 export const MainPage = () => (
-  <main className='py-5 mb-5 mt-xl-3'>
+  <main className='py-5 mt-xl-3'>
     <Container>
       <Row>
         <Col 

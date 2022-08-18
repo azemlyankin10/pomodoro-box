@@ -44,7 +44,6 @@ export const Timer: FC<Timer> = ({ time, addPomodoro, timerComplete }) => {
             >
               {time}
             </div>   
-        
           )
         }}
         autoStart={isTimeoutRun || leftTime > 1000 && isPlay }

@@ -7,7 +7,6 @@ import './OneDayActivityStat.css'
 export const OneDayActivityStat = () => {
   const { workTime: { time, day } } = useRecoilValue(getCurrentDayState)
 
-
   return (
     <div className='oneDayActivityStat bg-grey-1 h-100 p-4'>
       <h3 className='fs-5 mb-3 oneDayActivityStat__text'>{day}</h3>

@@ -40,7 +40,6 @@ export const getStatByDays = selector({
       }, 0)
     ))
     
-
     const pauses = getWeek(state.pauses as [], range).map(el => {
       const ms = el.reduce((acc, n) => {
         if(n && n.timeMs) {        
@@ -61,7 +60,6 @@ export const getStatByDays = selector({
     return { workTime, stops, pomodors, pauses }
   }
 })
-
 
 export const getCurrentDayState = selector({
   key: 'getCurrentDayState',

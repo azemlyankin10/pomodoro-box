@@ -30,9 +30,8 @@ export const getWeek = (arr: [], range: SelectValue) => {
   const sun = new Date(Number(sat) + msInOneDay)
   
   const week = [mon, tue, wed, thu, fri, sat, sun].map(el => day_month_year(el))
-  
 
-  return week.map(a => (
+  const sortStatByDays = week.map(a => (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     arr.map((b: any) => {
 
@@ -44,6 +43,8 @@ export const getWeek = (arr: [], range: SelectValue) => {
 
     })
   ))  
+    
+  return sortStatByDays
 }
 
 

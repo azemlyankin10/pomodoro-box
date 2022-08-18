@@ -2,8 +2,8 @@ type timeTipe = 'graph' | 'day' | 'pause'
 
 export const humanTime = (mins: number, type?: timeTipe) => {
   const hours = Math.trunc(mins/60)
-  const minutes = mins % 60
-
+  const minutes = Math.round(mins % 60)
+  
   if(type === 'graph') {
     if(hours < 1) return `${minutes} мин`
     return `${hours} час : ${minutes} мин`

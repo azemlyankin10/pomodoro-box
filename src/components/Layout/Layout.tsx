@@ -15,12 +15,6 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
     }, 2000)
   }, [isToast.delete])
 
-  useEffect(() => {
-    darkMode 
-      ? document.body.classList.add('dark') 
-      : document.body.classList.remove('dark')
-  }, [darkMode])
-
   return (
     <div className={`layout ${darkMode ? 'dark' : ''}`}>
 
