@@ -76,8 +76,20 @@ export const DashboardContainer = () => {
     addPomodorStat()
   }
 
+  const onSkipPause = () => {
+    setTimerControl({
+      ...timerControl,
+      isPlay: false,
+      isTaskRun: false,
+      isTimeoutRun: false,
+      isPause: false,
+      isStop: false,
+      leftTime: 0,
+    })
+  }
+
   if(!task && timerControl.isTimeoutRun) {
-    return <DashboardTimout timeoutTime={timeout} onTimeoutComplete={onTimeoutComplete}/>
+    return <DashboardTimout timeoutTime={timeout} onTimeoutComplete={onTimeoutComplete} onSkipPause={onSkipPause}/>
   }
   if(!task) return <Empty />
 
@@ -141,6 +153,7 @@ export const DashboardContainer = () => {
       isTimeout={timerControl.isTimeoutRun}
       timeoutTime={timeout}
       onTimeoutComplete={onTimeoutComplete}
+      onSkipPause={onSkipPause}
     />
   )  
 }

@@ -1,4 +1,5 @@
 import React, { FC } from 'react'
+import { Button } from 'react-bootstrap'
 import { ControlBtns } from './ControlBtns/ControlBtns'
 import './Dashboard.css'
 import { DBHeader } from './DBHeader/DBHeader'
@@ -18,6 +19,7 @@ interface Dashboard {
   isTimeout: boolean
   timeoutTime: number
   onTimeoutComplete: () => void
+  onSkipPause: () => void
 }
 
 export const Dashboard: FC<Dashboard> = ({ 
@@ -33,7 +35,8 @@ export const Dashboard: FC<Dashboard> = ({
   timerComplete,
   isTimeout,
   timeoutTime,
-  onTimeoutComplete
+  onTimeoutComplete,
+  onSkipPause
 }) => (
   <>
     {!isTimeout && (
@@ -70,6 +73,7 @@ export const Dashboard: FC<Dashboard> = ({
       <DashboardTimout 
         timeoutTime={timeoutTime}
         onTimeoutComplete={onTimeoutComplete}
+        onSkipPause={onSkipPause}
       />
     )}
   </>
@@ -79,9 +83,10 @@ export const Dashboard: FC<Dashboard> = ({
 type DashboardTimout = {
   timeoutTime: number
   onTimeoutComplete: () => void
+  onSkipPause: () => void
 }
 
-export const DashboardTimout:FC<DashboardTimout> = ({ timeoutTime, onTimeoutComplete }) => {
+export const DashboardTimout:FC<DashboardTimout> = ({ timeoutTime, onTimeoutComplete, onSkipPause }) => {
 
   return (
     <div className="bg-grey-1 d-flex justify-content-center align-items-center">
@@ -93,6 +98,14 @@ export const DashboardTimout:FC<DashboardTimout> = ({ timeoutTime, onTimeoutComp
         <p className="d-flex align-items-center mb-4">
           Пора отдохнуть!
         </p>
+        <Button
+          variant='outline-danger'
+          className='btn-red-outline'
+          style={{ width: 138 }}
+          onClick={onSkipPause}
+        >
+          Пропустить
+        </Button>
       </div>
     </div>
   )

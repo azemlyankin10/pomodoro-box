@@ -15,9 +15,9 @@ type Settings = {
 export const settingsState = atom<Settings>({
   key: 'settings',
   default: {
-    pomodoroTime: 25, /// 25
-    shortBreak: 3, ///3
-    longBreak: 30, ///30
+    pomodoroTime: .3, /// 25
+    shortBreak: .33, ///3
+    longBreak: .5, ///30
     countBreak: 4,
     notification: true,
     darkMode: false
